@@ -1,0 +1,63 @@
+<!-- Login Form -->
+<app-alert
+  *ngIf="showAlert"
+  [color]="alertColor"
+>
+  {{ alertMsg}}
+</app-alert>
+<form
+  #loginForm="ngForm"
+  (submit)="login()"
+>
+  <!-- Email -->
+  <div class="mb-3">
+    <label class="inline-block mb-2">Email</label>
+    <input
+      #email="ngModel"
+      required
+      pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+      [(ngModel)]="credentials.email"
+      type="email"
+      name="email"
+      class="block w-full py-1.5 px-3 text-gray-200 border border-gray-400 transition
+                  duration-500 focus:outline-none rounded bg-transparent
+                  focus:border-indigo-400"
+      placeholder="Enter Email"
+    />
+  </div>
+  <p
+    class="text-red-400"
+    *ngIf="email.errors && email.touched && email.dirty"
+  >
+    Email is invalid
+  </p>
+  <!-- Password -->
+  <div class="mb-3">
+    <label class="inline-block mb-2">Password</label>
+    <input
+      [(ngModel)]="credentials.password"
+      name="password"
+      #password="ngModel"
+      type="password"
+      class="block w-full py-1.5 px-3 text-gray-200 border border-gray-400 transition
+                duration-500 focus:outline-none rounded bg-transparent focus:border-indigo-400"
+      placeholder="Password"
+      required
+      minlength="6"
+      pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$"
+    />
+  </div>
+  <p
+    class="text-red-400"
+    *ngIf="password.errors && password.touched && password.dirty"
+  >
+    Password should be at least 6 characters
+    long, contains 1 capital letter, 1 small letter and at least 1 digit
+  </p>
+  <button type="submit"
+          [disabled]="loginForm.invalid || inSubmission"
+          class="block w-full bg-indigo-400 text-white py-1.5 px-3 rounded transition
+                hover:bg-indigo-500 disabled:opacity-50 disabled:bg-indigo-400">
+    Submit
+  </button>
+</form>
